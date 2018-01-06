@@ -332,10 +332,10 @@
     {% endif %}
 
     <footer class="post-footer">
-      <div class="post-tip">
-          <span>文章已同步于<a href="https://github.com/jiangtao/blog/issues">github issues</a>，欢迎讨论和关注</span>
-      </div>
       {% if post.tags and post.tags.length and not is_index %}
+        <div class="post-tip">
+            <span>文章已同步于<a href="https://github.com/jiangtao/blog/issues">github issues</a>，欢迎讨论和关注</span>
+        </div>
         <div class="post-tags">
           {% for tag in post.tags %}
             <a href="{{ url_for(tag.path) }}" rel="tag"># {{ tag.name }}</a>
