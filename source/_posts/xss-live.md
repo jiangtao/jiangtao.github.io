@@ -8,6 +8,8 @@ tags: [xss]
 
 本次总结基于耗子的[xss-demo](https://github.com/haozime/xss-demo)，以及自己对xss的理解和知识的吸收。感兴趣的同学可以先去试试，这里就不在累赘提供答案了。 欢迎探讨更多`Web安全`相关话题。
 
+<!--more-->
+
 ### 插入执行标签
 
 * script
