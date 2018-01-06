@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+  <title>江涛</title>
+  
+  <subtitle>记录成长，共同进步</subtitle>
+  <link href="/atom.xml" rel="self"/>
+  
+  <link href="https://imjiangtao.com/"/>
+  <updated>2018-01-06T12:45:06.000Z</updated>
+  <id>https://imjiangtao.com/</id>
+  
+  <author>
+    <name>f2ecoder@vip.qq.com</name>
+    
+  </author>
+  
+  <generator uri="http://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>xss live总结</title>
+    <link href="https://imjiangtao.com/2017/09/13/xss-live/"/>
+    <id>https://imjiangtao.com/2017/09/13/xss-live/</id>
+    <published>2017-09-13T11:55:00.000Z</published>
+    <updated>2018-01-06T12:45:06.000Z</updated>
+    
+    <content type="html"><![CDATA[<p>朋友组织了一场<code>xss</code> live，<code>安全</code>一直是开发中不可忽视的一部分。而<code>xss</code>作为web开发中最常见的攻击手段，防范是必然的。基于<strong>web浏览器tricks</strong>，<strong>JavaScript的发展</strong>，<strong>npm等开源项目漏洞</strong>，<strong>web注入</strong>等会让开发者越来越防不胜防。</p><p>本次总结基于耗子的<a href="https://github.com/haozime/xss-demo" target="_blank" rel="noopener">xss-demo</a>，以及自己对xss的理解和知识的吸收。感兴趣的同学可以先去试试，这里就不在累赘提供答案了。 欢迎探讨更多<code>Web安全</code>相关话题。</p><h3 id="插入执行标签"><a href="#插入执行标签" class="headerlink" title="插入执行标签"></a>插入执行标签</h3><ul><li>script</li><li>img onerror触发</li><li>iframe srcdoc触发</li></ul><h3 id="标签等提前闭合-截断"><a href="#标签等提前闭合-截断" class="headerlink" title="标签等提前闭合(截断)"></a>标签等提前闭合(截断)</h3><ul><li><p>如在<code>富文本</code>, <code>input</code>, <code>textarea</code>, 可编辑<code>div</code>等，对应xss-demo <a href="https://xss.haozi.me/#/0x01" target="_blank" rel="noopener">0x01</a>, <a href="https://xss.haozi.me/#/0x02" target="_blank" rel="noopener">0x02</a></p></li><li><p>style标签</p></li></ul><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">&lt;style&gt;</span><br><span class="line">&lt;/style &gt;&lt;script&gt;alert(1)&lt;/script&gt;</span><br><span class="line">&lt;/style&gt;</span><br></pre></td></tr></table></figure><ul><li><p>注释提前闭合<a href="https://xss.haozi.me/#/0x05" target="_blank" rel="noopener">0x05</a></p><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">--!&gt;&lt;script&gt;alert(1)&lt;/script&gt;</span><br></pre></td></tr></table></figure></li><li><p>input type重写<a href="https://xss.haozi.me/#/0x06" target="_blank" rel="noopener">0x06</a></p></li></ul><p>input的type，在type之前可以重写为image，通过<code>onerror</code>注入</p><h3 id="ES6-tag标签"><a href="#ES6-tag标签" class="headerlink" title="ES6 tag标签"></a>ES6 tag标签</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&lt;script&gt;alert`1`&lt;/script&gt;</span><br></pre></td></tr></table></figure><h3 id="转义字符仍可执行"><a href="#转义字符仍可执行" class="headerlink" title="转义字符仍可执行"></a>转义字符仍可执行</h3><ul><li>script标签可执行 <code>base64</code>的html代码片段</li><li>onerror可执行 转义为 html 10进制， 16进制的代码片段</li><li>url转义为 html 10进制， 16进制 仍可执行, url的定义可获取其他域下的资源文件</li></ul><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">scheme:[//[user:password@]host[:port]][/]path[?query][#fragment]</span><br></pre></td></tr></table></figure><h3 id="svg不闭合也执行"><a href="#svg不闭合也执行" class="headerlink" title="svg不闭合也执行"></a>svg不闭合也执行</h3><p>查看 <a href="https://xss.haozi.me/#/0x07" target="_blank" rel="noopener">0x07</a></p><h3 id="正则替换不靠谱"><a href="#正则替换不靠谱" class="headerlink" title="正则替换不靠谱"></a>正则替换不靠谱</h3><ul><li>正则替换 <a href="https://xss.haozi.me/#/0x0C" target="_blank" rel="noopener">0x0C</a></li><li>正则命中 <a href="https://xss.haozi.me/#/0x0E" target="_blank" rel="noopener">0x0E</a></li><li>//追加执行，正则替换失效 <a href="https://xss.haozi.me/#/0x0F" target="_blank" rel="noopener">0x0F</a></li></ul><h3 id="防护"><a href="#防护" class="headerlink" title="防护"></a>防护</h3><ul><li><a href="https://imququ.com/post/web-security-and-response-header.html" target="_blank" rel="noopener">配置安全头</a></li><li><a href="http://fex.baidu.com/blog/2014/06/xss-frontend-firewall-1/" target="_blank" rel="noopener">xss监控</a></li><li>服务端白名单过滤</li></ul><p>这样总结对我更好的理解，也明白为什么最后是通过替换不同的字符来做处理。 <code>Web安全</code>路很长，需要持续关注。</p>]]></content>
+    
+    <summary type="html">
+    
+      
+      
+        &lt;p&gt;朋友组织了一场&lt;code&gt;xss&lt;/code&gt; live，&lt;code&gt;安全&lt;/code&gt;一直是开发中不可忽视的一部分。而&lt;code&gt;xss&lt;/code&gt;作为web开发中最常见的攻击手段，防范是必然的。基于&lt;strong&gt;web浏览器tricks&lt;/strong&gt;，&lt;stro
+      
+    
+    </summary>
+    
+    
+      <category term="xss" scheme="https://imjiangtao.com/tags/xss/"/>
+    
+  </entry>
+  
+</feed>
