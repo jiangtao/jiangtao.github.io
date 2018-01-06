@@ -78,7 +78,7 @@
 <link href="/css/main.css?v=5.1.2" rel="stylesheet" type="text/css" />
 
 
-  <meta name="keywords" content="xss," />
+  <meta name="keywords" content="puppeteer,crawler," />
 
 
 
@@ -96,18 +96,18 @@
 
 
 
-<meta name="description" content="朋友组织了一场xss live，安全一直是开发中不可忽视的一部分。而xss作为web开发中最常见的攻击手段，防范是必然的。基于web浏览器tricks，JavaScript的发展，npm等开源项目漏洞，web注入等会让开发者越来越防不胜防。 本次总结基于耗子的xss-demo，以及自己对xss的理解和知识的吸收。感兴趣的同学可以先去试试，这里就不在累赘提供答案了。 欢迎探讨更多Web安全相关话题。">
-<meta name="keywords" content="xss">
+<meta name="description" content="前段时间破事群讨论问题，突然提到一个新名词 puppeteer，于是好奇查了下干什么的。于是一发不可收拾。">
+<meta name="keywords" content="puppeteer,crawler">
 <meta property="og:type" content="article">
-<meta property="og:title" content="xss live总结">
-<meta property="og:url" content="https://imjiangtao.com/2017/09/13/xss-live/index.html">
+<meta property="og:title" content="从一个爬虫初识puppeteer">
+<meta property="og:url" content="https://imjiangtao.com/2017/11/08/puppeteer-start/index.html">
 <meta property="og:site_name" content="江涛">
-<meta property="og:description" content="朋友组织了一场xss live，安全一直是开发中不可忽视的一部分。而xss作为web开发中最常见的攻击手段，防范是必然的。基于web浏览器tricks，JavaScript的发展，npm等开源项目漏洞，web注入等会让开发者越来越防不胜防。 本次总结基于耗子的xss-demo，以及自己对xss的理解和知识的吸收。感兴趣的同学可以先去试试，这里就不在累赘提供答案了。 欢迎探讨更多Web安全相关话题。">
+<meta property="og:description" content="前段时间破事群讨论问题，突然提到一个新名词 puppeteer，于是好奇查了下干什么的。于是一发不可收拾。">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:updated_time" content="2018-01-06T13:46:26.000Z">
+<meta property="og:updated_time" content="2018-01-06T13:51:32.000Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="xss live总结">
-<meta name="twitter:description" content="朋友组织了一场xss live，安全一直是开发中不可忽视的一部分。而xss作为web开发中最常见的攻击手段，防范是必然的。基于web浏览器tricks，JavaScript的发展，npm等开源项目漏洞，web注入等会让开发者越来越防不胜防。 本次总结基于耗子的xss-demo，以及自己对xss的理解和知识的吸收。感兴趣的同学可以先去试试，这里就不在累赘提供答案了。 欢迎探讨更多Web安全相关话题。">
+<meta name="twitter:title" content="从一个爬虫初识puppeteer">
+<meta name="twitter:description" content="前段时间破事群讨论问题，突然提到一个新名词 puppeteer，于是好奇查了下干什么的。于是一发不可收拾。">
 
 
 
@@ -136,13 +136,13 @@
 
 
 
-  <link rel="canonical" href="https://imjiangtao.com/2017/09/13/xss-live/"/>
+  <link rel="canonical" href="https://imjiangtao.com/2017/11/08/puppeteer-start/"/>
 
 
 
 
 
-  <title>xss live总结 | 江涛</title>
+  <title>从一个爬虫初识puppeteer | 江涛</title>
   
 
 
@@ -285,7 +285,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="https://imjiangtao.com/2017/09/13/xss-live/">
+    <link itemprop="mainEntityOfPage" href="https://imjiangtao.com/2017/11/08/puppeteer-start/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="f2ecoder@vip.qq.com">
@@ -302,7 +302,7 @@
 
         
         
-          <h1 class="post-title" itemprop="name headline">xss live总结</h1>
+          <h1 class="post-title" itemprop="name headline">从一个爬虫初识puppeteer</h1>
         
 
         <div class="post-meta">
@@ -314,8 +314,8 @@
               
                 <span class="post-meta-item-text">发表于</span>
               
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-09-13T19:55:00+08:00">
-                2017-09-13
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-11-08T19:55:00+08:00">
+                2017-11-08
               </time>
             
 
@@ -352,48 +352,46 @@
       
 
       
-        <p>朋友组织了一场<code>xss</code> live，<code>安全</code>一直是开发中不可忽视的一部分。而<code>xss</code>作为web开发中最常见的攻击手段，防范是必然的。基于<strong>web浏览器tricks</strong>，<strong>JavaScript的发展</strong>，<strong>npm等开源项目漏洞</strong>，<strong>web注入</strong>等会让开发者越来越防不胜防。</p>
-<p>本次总结基于耗子的<a href="https://github.com/haozime/xss-demo" target="_blank" rel="noopener">xss-demo</a>，以及自己对xss的理解和知识的吸收。感兴趣的同学可以先去试试，这里就不在累赘提供答案了。 欢迎探讨更多<code>Web安全</code>相关话题。</p>
+        <p>前段时间破事群讨论问题，突然提到一个新名词 <code>puppeteer</code>，于是好奇查了下干什么的。于是一发不可收拾。</p>
 <a id="more"></a>
-<h3 id="插入执行标签"><a href="#插入执行标签" class="headerlink" title="插入执行标签"></a>插入执行标签</h3><ul>
-<li>script</li>
-<li>img onerror触发</li>
-<li>iframe srcdoc触发</li>
-</ul>
-<h3 id="标签等提前闭合-截断"><a href="#标签等提前闭合-截断" class="headerlink" title="标签等提前闭合(截断)"></a>标签等提前闭合(截断)</h3><ul>
-<li><p>如在<code>富文本</code>, <code>input</code>, <code>textarea</code>, 可编辑<code>div</code>等，对应xss-demo <a href="https://xss.haozi.me/#/0x01" target="_blank" rel="noopener">0x01</a>, <a href="https://xss.haozi.me/#/0x02" target="_blank" rel="noopener">0x02</a></p>
-</li>
-<li><p>style标签</p>
-</li>
-</ul>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">&lt;style&gt;</span><br><span class="line">&lt;/style &gt;&lt;script&gt;alert(1)&lt;/script&gt;</span><br><span class="line">&lt;/style&gt;</span><br></pre></td></tr></table></figure>
+<h2 id="什么是puppeteer"><a href="#什么是puppeteer" class="headerlink" title="什么是puppeteer"></a>什么是puppeteer</h2><p>来自官方的介绍：</p>
+<blockquote>
+<p>Puppeteer是一个Node库，提供一套高度封装的API， 通过<a href="https://chromedevtools.github.io/devtools-protocol/" target="_blank" rel="noopener">DevTools Protocol</a>来控制<a href="https://developers.google.com/web/updates/2017/04/headless-chrome" target="_blank" rel="noopener">headless</a> Chrome</p>
+</blockquote>
+<h2 id="能干什么"><a href="#能干什么" class="headerlink" title="能干什么"></a>能干什么</h2><p>来自官方的描述：</p>
+<blockquote>
+<p>很多事情可以使用Puppeteer在浏览器中手工完成，下面是一些可以上手的例子：</p>
+</blockquote>
 <ul>
-<li><p>注释提前闭合<a href="https://xss.haozi.me/#/0x05" target="_blank" rel="noopener">0x05</a></p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">--!&gt;&lt;script&gt;alert(1)&lt;/script&gt;</span><br></pre></td></tr></table></figure>
-</li>
-<li><p>input type重写<a href="https://xss.haozi.me/#/0x06" target="_blank" rel="noopener">0x06</a></p>
-</li>
+<li>生成屏幕快照和pdf</li>
+<li>爬取单页面应用和预渲染内容</li>
+<li>获取网页内容</li>
+<li>全自动的form提交, UI测试, 键盘输入等等.</li>
+<li>创建一个最新的，自动的测试环境。直接使用最新版本的chrome，使用最新的JavaScript和浏览器特性，跑你的测试用例</li>
+<li>捕获你网站的<a href="https://developers.google.com/web/tools/chrome-devtools/evaluate-performance/reference" target="_blank" rel="noopener">timeline trace</a>， 诊断性能问题</li>
 </ul>
-<p>input的type，在type之前可以重写为image，通过<code>onerror</code>注入</p>
-<h3 id="ES6-tag标签"><a href="#ES6-tag标签" class="headerlink" title="ES6 tag标签"></a>ES6 tag标签</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&lt;script&gt;alert`1`&lt;/script&gt;</span><br></pre></td></tr></table></figure>
-<h3 id="转义字符仍可执行"><a href="#转义字符仍可执行" class="headerlink" title="转义字符仍可执行"></a>转义字符仍可执行</h3><ul>
-<li>script标签可执行 <code>base64</code>的html代码片段</li>
-<li>onerror可执行 转义为 html 10进制， 16进制的代码片段</li>
-<li>url转义为 html 10进制， 16进制 仍可执行, url的定义可获取其他域下的资源文件</li>
+<h2 id="爬取百度图片"><a href="#爬取百度图片" class="headerlink" title="爬取百度图片"></a>爬取百度图片</h2><p>爬取特定 <strong>关键词</strong> 搜索出来的图片，百度图片分为 首页和详情页</p>
+<h2 id="百度图片首页爬取特点"><a href="#百度图片首页爬取特点" class="headerlink" title="百度图片首页爬取特点"></a>百度图片首页爬取特点</h2><ul>
+<li>图片一般较小，需要过滤掉小图</li>
+<li>需要滚动加载显示更多图片，需要程序自动滚动</li>
 </ul>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">scheme:[//[user:password@]host[:port]][/]path[?query][#fragment]</span><br></pre></td></tr></table></figure>
-<h3 id="svg不闭合也执行"><a href="#svg不闭合也执行" class="headerlink" title="svg不闭合也执行"></a>svg不闭合也执行</h3><p>查看 <a href="https://xss.haozi.me/#/0x07" target="_blank" rel="noopener">0x07</a></p>
-<h3 id="正则替换不靠谱"><a href="#正则替换不靠谱" class="headerlink" title="正则替换不靠谱"></a>正则替换不靠谱</h3><ul>
-<li>正则替换 <a href="https://xss.haozi.me/#/0x0C" target="_blank" rel="noopener">0x0C</a></li>
-<li>正则命中 <a href="https://xss.haozi.me/#/0x0E" target="_blank" rel="noopener">0x0E</a></li>
-<li>//追加执行，正则替换失效 <a href="https://xss.haozi.me/#/0x0F" target="_blank" rel="noopener">0x0F</a></li>
+<h2 id="百度图片详情页爬取特点"><a href="#百度图片详情页爬取特点" class="headerlink" title="百度图片详情页爬取特点"></a>百度图片详情页爬取特点</h2><ul>
+<li>以图片展示框展示，需要自动点击下一页</li>
 </ul>
-<h3 id="防护"><a href="#防护" class="headerlink" title="防护"></a>防护</h3><ul>
-<li><a href="https://imququ.com/post/web-security-and-response-header.html" target="_blank" rel="noopener">配置安全头</a></li>
-<li><a href="http://fex.baidu.com/blog/2014/06/xss-frontend-firewall-1/" target="_blank" rel="noopener">xss监控</a></li>
-<li>服务端白名单过滤</li>
-</ul>
-<p>这样总结对我更好的理解，也明白为什么最后是通过替换不同的字符来做处理。 <code>Web安全</code>路很长，需要持续关注。</p>
+<h2 id="图片抓取通用点"><a href="#图片抓取通用点" class="headerlink" title="图片抓取通用点"></a>图片抓取通用点</h2><p>因为<code>Puppeteer</code>可以监听网络请求和响应，所以只需要在请求和响应的时候做处理即可。<br>为了保证图片尺寸，我们这里以响应时做处理。若读者需要快速的请求，不在乎小图啊，可以通过请求的时候来做处理，这样效率更快一点。</p>
+<p>下面我们一块来撸一个百度图片的爬虫。 <strong>注：</strong> 本教程只用做演示，请大家不要搞百度呀~</p>
+<h2 id="以首页爬取来开始Puppeteer"><a href="#以首页爬取来开始Puppeteer" class="headerlink" title="以首页爬取来开始Puppeteer"></a>以首页爬取来开始Puppeteer</h2><ol>
+<li>首先创建 Page 实例</li>
+</ol>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> browser = <span class="keyword">await</span> puppeteer.launch(&#123;</span><br><span class="line">  headless: <span class="literal">false</span></span><br><span class="line">&#125;)</span><br><span class="line"><span class="keyword">const</span> page = <span class="keyword">await</span> browser.newPage()</span><br><span class="line"><span class="comment">// 若需要request， 把事件改成 request 即可，但拿到的是request的信息</span></span><br><span class="line">page.on(<span class="string">'response'</span>, <span class="keyword">async</span>(data) =&gt; &#123;</span><br><span class="line">  <span class="comment">// 判定拿到的数据是否是图片， 也可以根据url规则挑选出自己想要的url</span></span><br><span class="line">  <span class="keyword">if</span> (isDownloadImageByResponse(data)) &#123;</span><br><span class="line">    <span class="comment">// 下载图片逻辑</span></span><br><span class="line">  &#125;</span><br><span class="line">&#125;)</span><br></pre></td></tr></table></figure>
+<ol>
+<li>自动滚动逻辑</li>
+</ol>
+<p>通过 <code>window.scrollBy</code> api控制滚动条自动滚动, 代码如下</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">module</span>.exports = <span class="keyword">async</span> <span class="function"><span class="keyword">function</span> <span class="title">autoScroll</span>(<span class="params">page</span>) </span>&#123;</span><br><span class="line">  <span class="keyword">await</span> page.evaluate(<span class="keyword">async</span> () =&gt; &#123;</span><br><span class="line">    <span class="keyword">await</span> <span class="keyword">new</span> <span class="built_in">Promise</span>(<span class="function">(<span class="params">resolve, reject</span>) =&gt;</span> &#123;</span><br><span class="line">      <span class="keyword">try</span> &#123;</span><br><span class="line">        <span class="keyword">let</span> lastScroll = <span class="number">0</span></span><br><span class="line">        <span class="keyword">const</span> maxScroll = <span class="built_in">Number</span>.MAX_SAFE_INTEGER</span><br><span class="line">        <span class="keyword">const</span> interval = setInterval(<span class="function"><span class="params">()</span> =&gt;</span> &#123;</span><br><span class="line">          <span class="built_in">window</span>.scrollBy(<span class="number">0</span>, <span class="number">100</span>)</span><br><span class="line">          <span class="keyword">const</span> scrollTop = <span class="built_in">document</span>.documentElement.scrollTop</span><br><span class="line">          <span class="keyword">if</span> (scrollTop === maxScroll || lastScroll === scrollTop) &#123;</span><br><span class="line">            clearInterval(interval)</span><br><span class="line">            resolve()</span><br><span class="line">          &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">            lastScroll = scrollTop</span><br><span class="line">          &#125;</span><br><span class="line">        &#125;, <span class="number">100</span>)</span><br><span class="line">      &#125; <span class="keyword">catch</span> (err) &#123;</span><br><span class="line">        reject(err.toString())</span><br><span class="line">      &#125;</span><br><span class="line">    &#125;)</span><br><span class="line">  &#125;)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>这样一个滚屏的爬虫逻辑就完成了，<a href="https://github.com/ijs/pcralwer" target="_blank" rel="noopener">具体的代码请查看</a>，而且不需要解析dom，也不用担心网站改版之类了，生活瞬间变得美好。</p>
+<h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><p><code>Puppeteer</code>带来的是更方便的操作headless chrome, 对于前端而言，可以做更好的测试，如基本的操作测试，线上页面屏幕快照抓取和分析等等。<br>当然在很久之前也有类似的实现，比如 <code>Phantomjs</code>之流，<code>Puppeteer</code>相对而言使用浏览器最新的api，对前端而言上面更快。如果你又兴趣，不妨去利用<code>Puppeteer</code>做一些事儿。</p>
+<p>您喜欢欢迎star or fork，转载请注明出处</p>
 
       
     </div>
@@ -411,7 +409,9 @@
       
         <div class="post-tags">
           
-            <a href="/tags/xss/" rel="tag"># xss</a>
+            <a href="/tags/puppeteer/" rel="tag"># puppeteer</a>
+          
+            <a href="/tags/crawler/" rel="tag"># crawler</a>
           
         </div>
       
@@ -424,8 +424,8 @@
         <div class="post-nav">
           <div class="post-nav-next post-nav-item">
             
-              <a href="/2017/09/13/vue-webp/" rel="next" title="将webp接入到vue项目中">
-                <i class="fa fa-chevron-left"></i> 将webp接入到vue项目中
+              <a href="/2017/09/13/xss-live/" rel="next" title="xss live总结">
+                <i class="fa fa-chevron-left"></i> xss live总结
               </a>
             
           </div>
@@ -434,8 +434,8 @@
 
           <div class="post-nav-prev post-nav-item">
             
-              <a href="/2017/11/08/puppeteer-start/" rel="prev" title="从一个爬虫初识puppeteer">
-                从一个爬虫初识puppeteer <i class="fa fa-chevron-right"></i>
+              <a href="/2017/12/01/version-lock/" rel="prev" title="npm依赖版本锁定和管理">
+                npm依赖版本锁定和管理 <i class="fa fa-chevron-right"></i>
               </a>
             
           </div>
@@ -592,7 +592,7 @@
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#插入执行标签"><span class="nav-number">1.</span> <span class="nav-text">插入执行标签</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#标签等提前闭合-截断"><span class="nav-number">2.</span> <span class="nav-text">标签等提前闭合(截断)</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#ES6-tag标签"><span class="nav-number">3.</span> <span class="nav-text">ES6 tag标签</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#转义字符仍可执行"><span class="nav-number">4.</span> <span class="nav-text">转义字符仍可执行</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#svg不闭合也执行"><span class="nav-number">5.</span> <span class="nav-text">svg不闭合也执行</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#正则替换不靠谱"><span class="nav-number">6.</span> <span class="nav-text">正则替换不靠谱</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#防护"><span class="nav-number">7.</span> <span class="nav-text">防护</span></a></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#什么是puppeteer"><span class="nav-number">1.</span> <span class="nav-text">什么是puppeteer</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#能干什么"><span class="nav-number">2.</span> <span class="nav-text">能干什么</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#爬取百度图片"><span class="nav-number">3.</span> <span class="nav-text">爬取百度图片</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#百度图片首页爬取特点"><span class="nav-number">4.</span> <span class="nav-text">百度图片首页爬取特点</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#百度图片详情页爬取特点"><span class="nav-number">5.</span> <span class="nav-text">百度图片详情页爬取特点</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#图片抓取通用点"><span class="nav-number">6.</span> <span class="nav-text">图片抓取通用点</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#以首页爬取来开始Puppeteer"><span class="nav-number">7.</span> <span class="nav-text">以首页爬取来开始Puppeteer</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#总结"><span class="nav-number">8.</span> <span class="nav-text">总结</span></a></li></ol></div>
             
 
           </div>

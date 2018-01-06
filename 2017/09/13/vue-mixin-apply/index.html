@@ -78,7 +78,7 @@
 <link href="/css/main.css?v=5.1.2" rel="stylesheet" type="text/css" />
 
 
-  <meta name="keywords" content="xss," />
+  <meta name="keywords" content="mixin,vue," />
 
 
 
@@ -96,18 +96,20 @@
 
 
 
-<meta name="description" content="朋友组织了一场xss live，安全一直是开发中不可忽视的一部分。而xss作为web开发中最常见的攻击手段，防范是必然的。基于web浏览器tricks，JavaScript的发展，npm等开源项目漏洞，web注入等会让开发者越来越防不胜防。 本次总结基于耗子的xss-demo，以及自己对xss的理解和知识的吸收。感兴趣的同学可以先去试试，这里就不在累赘提供答案了。 欢迎探讨更多Web安全相关话题。">
-<meta name="keywords" content="xss">
+<meta name="description" content="奇舞周刊推荐了一篇文章Vue.js 中使用Mixin， 用了vue大半年时间，mixin不知道挺惭愧。 奇舞周刊文章中已经介绍了 vue mixin。  官方提示谨慎使用 global mixin 合理的场景下使用 mixin  这里再补充一个 通用业务（埋点） 来描述 mixin的优缺点。">
+<meta name="keywords" content="mixin,vue">
 <meta property="og:type" content="article">
-<meta property="og:title" content="xss live总结">
-<meta property="og:url" content="https://imjiangtao.com/2017/09/13/xss-live/index.html">
+<meta property="og:title" content="vue中的mixins实践">
+<meta property="og:url" content="https://imjiangtao.com/2017/09/13/vue-mixin-apply/index.html">
 <meta property="og:site_name" content="江涛">
-<meta property="og:description" content="朋友组织了一场xss live，安全一直是开发中不可忽视的一部分。而xss作为web开发中最常见的攻击手段，防范是必然的。基于web浏览器tricks，JavaScript的发展，npm等开源项目漏洞，web注入等会让开发者越来越防不胜防。 本次总结基于耗子的xss-demo，以及自己对xss的理解和知识的吸收。感兴趣的同学可以先去试试，这里就不在累赘提供答案了。 欢迎探讨更多Web安全相关话题。">
+<meta property="og:description" content="奇舞周刊推荐了一篇文章Vue.js 中使用Mixin， 用了vue大半年时间，mixin不知道挺惭愧。 奇舞周刊文章中已经介绍了 vue mixin。  官方提示谨慎使用 global mixin 合理的场景下使用 mixin  这里再补充一个 通用业务（埋点） 来描述 mixin的优缺点。">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:updated_time" content="2018-01-06T13:46:26.000Z">
+<meta property="og:image" content="https://user-images.githubusercontent.com/2155745/30382229-385a8f70-9864-11e7-8fc7-01439d8a24f2.png">
+<meta property="og:updated_time" content="2018-01-06T13:57:08.000Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="xss live总结">
-<meta name="twitter:description" content="朋友组织了一场xss live，安全一直是开发中不可忽视的一部分。而xss作为web开发中最常见的攻击手段，防范是必然的。基于web浏览器tricks，JavaScript的发展，npm等开源项目漏洞，web注入等会让开发者越来越防不胜防。 本次总结基于耗子的xss-demo，以及自己对xss的理解和知识的吸收。感兴趣的同学可以先去试试，这里就不在累赘提供答案了。 欢迎探讨更多Web安全相关话题。">
+<meta name="twitter:title" content="vue中的mixins实践">
+<meta name="twitter:description" content="奇舞周刊推荐了一篇文章Vue.js 中使用Mixin， 用了vue大半年时间，mixin不知道挺惭愧。 奇舞周刊文章中已经介绍了 vue mixin。  官方提示谨慎使用 global mixin 合理的场景下使用 mixin  这里再补充一个 通用业务（埋点） 来描述 mixin的优缺点。">
+<meta name="twitter:image" content="https://user-images.githubusercontent.com/2155745/30382229-385a8f70-9864-11e7-8fc7-01439d8a24f2.png">
 
 
 
@@ -136,13 +138,13 @@
 
 
 
-  <link rel="canonical" href="https://imjiangtao.com/2017/09/13/xss-live/"/>
+  <link rel="canonical" href="https://imjiangtao.com/2017/09/13/vue-mixin-apply/"/>
 
 
 
 
 
-  <title>xss live总结 | 江涛</title>
+  <title>vue中的mixins实践 | 江涛</title>
   
 
 
@@ -285,7 +287,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="https://imjiangtao.com/2017/09/13/xss-live/">
+    <link itemprop="mainEntityOfPage" href="https://imjiangtao.com/2017/09/13/vue-mixin-apply/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="f2ecoder@vip.qq.com">
@@ -302,7 +304,7 @@
 
         
         
-          <h1 class="post-title" itemprop="name headline">xss live总结</h1>
+          <h1 class="post-title" itemprop="name headline">vue中的mixins实践</h1>
         
 
         <div class="post-meta">
@@ -352,48 +354,28 @@
       
 
       
-        <p>朋友组织了一场<code>xss</code> live，<code>安全</code>一直是开发中不可忽视的一部分。而<code>xss</code>作为web开发中最常见的攻击手段，防范是必然的。基于<strong>web浏览器tricks</strong>，<strong>JavaScript的发展</strong>，<strong>npm等开源项目漏洞</strong>，<strong>web注入</strong>等会让开发者越来越防不胜防。</p>
-<p>本次总结基于耗子的<a href="https://github.com/haozime/xss-demo" target="_blank" rel="noopener">xss-demo</a>，以及自己对xss的理解和知识的吸收。感兴趣的同学可以先去试试，这里就不在累赘提供答案了。 欢迎探讨更多<code>Web安全</code>相关话题。</p>
-<a id="more"></a>
-<h3 id="插入执行标签"><a href="#插入执行标签" class="headerlink" title="插入执行标签"></a>插入执行标签</h3><ul>
-<li>script</li>
-<li>img onerror触发</li>
-<li>iframe srcdoc触发</li>
-</ul>
-<h3 id="标签等提前闭合-截断"><a href="#标签等提前闭合-截断" class="headerlink" title="标签等提前闭合(截断)"></a>标签等提前闭合(截断)</h3><ul>
-<li><p>如在<code>富文本</code>, <code>input</code>, <code>textarea</code>, 可编辑<code>div</code>等，对应xss-demo <a href="https://xss.haozi.me/#/0x01" target="_blank" rel="noopener">0x01</a>, <a href="https://xss.haozi.me/#/0x02" target="_blank" rel="noopener">0x02</a></p>
-</li>
-<li><p>style标签</p>
-</li>
-</ul>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">&lt;style&gt;</span><br><span class="line">&lt;/style &gt;&lt;script&gt;alert(1)&lt;/script&gt;</span><br><span class="line">&lt;/style&gt;</span><br></pre></td></tr></table></figure>
+        <p>奇舞周刊推荐了一篇文章<a href="http://zcfy.cc/article/using-mixins-in-vue-js-css-tricks-3257.html" target="_blank" rel="noopener">Vue.js 中使用Mixin</a>， 用了vue大半年时间，<code>mixin</code>不知道挺惭愧。</p>
+<p>奇舞周刊文章中已经介绍了 vue mixin。</p>
 <ul>
-<li><p>注释提前闭合<a href="https://xss.haozi.me/#/0x05" target="_blank" rel="noopener">0x05</a></p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">--!&gt;&lt;script&gt;alert(1)&lt;/script&gt;</span><br></pre></td></tr></table></figure>
-</li>
-<li><p>input type重写<a href="https://xss.haozi.me/#/0x06" target="_blank" rel="noopener">0x06</a></p>
-</li>
+<li>官方提示谨慎使用 <a href="http://vuejs.org/v2/guide/mixins.html#Global-Mixin" target="_blank" rel="noopener">global mixin</a></li>
+<li>合理的场景下使用 <code>mixin</code></li>
 </ul>
-<p>input的type，在type之前可以重写为image，通过<code>onerror</code>注入</p>
-<h3 id="ES6-tag标签"><a href="#ES6-tag标签" class="headerlink" title="ES6 tag标签"></a>ES6 tag标签</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&lt;script&gt;alert`1`&lt;/script&gt;</span><br></pre></td></tr></table></figure>
-<h3 id="转义字符仍可执行"><a href="#转义字符仍可执行" class="headerlink" title="转义字符仍可执行"></a>转义字符仍可执行</h3><ul>
-<li>script标签可执行 <code>base64</code>的html代码片段</li>
-<li>onerror可执行 转义为 html 10进制， 16进制的代码片段</li>
-<li>url转义为 html 10进制， 16进制 仍可执行, url的定义可获取其他域下的资源文件</li>
-</ul>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">scheme:[//[user:password@]host[:port]][/]path[?query][#fragment]</span><br></pre></td></tr></table></figure>
-<h3 id="svg不闭合也执行"><a href="#svg不闭合也执行" class="headerlink" title="svg不闭合也执行"></a>svg不闭合也执行</h3><p>查看 <a href="https://xss.haozi.me/#/0x07" target="_blank" rel="noopener">0x07</a></p>
-<h3 id="正则替换不靠谱"><a href="#正则替换不靠谱" class="headerlink" title="正则替换不靠谱"></a>正则替换不靠谱</h3><ul>
-<li>正则替换 <a href="https://xss.haozi.me/#/0x0C" target="_blank" rel="noopener">0x0C</a></li>
-<li>正则命中 <a href="https://xss.haozi.me/#/0x0E" target="_blank" rel="noopener">0x0E</a></li>
-<li>//追加执行，正则替换失效 <a href="https://xss.haozi.me/#/0x0F" target="_blank" rel="noopener">0x0F</a></li>
-</ul>
-<h3 id="防护"><a href="#防护" class="headerlink" title="防护"></a>防护</h3><ul>
-<li><a href="https://imququ.com/post/web-security-and-response-header.html" target="_blank" rel="noopener">配置安全头</a></li>
-<li><a href="http://fex.baidu.com/blog/2014/06/xss-frontend-firewall-1/" target="_blank" rel="noopener">xss监控</a></li>
-<li>服务端白名单过滤</li>
-</ul>
-<p>这样总结对我更好的理解，也明白为什么最后是通过替换不同的字符来做处理。 <code>Web安全</code>路很长，需要持续关注。</p>
+<p>这里再补充一个 通用业务（埋点） 来描述 mixin的优缺点。 <a id="more"></a></p>
+<h2 id="需求"><a href="#需求" class="headerlink" title="需求"></a>需求</h2><p>在<code>SPA</code>实现埋点需求中比较通用的需求，<code>进入页面</code> 和 <code>离开页面</code> 需要记录用户在 当前页面的 停留时间。使用<code>mixin</code>， 简化代码如下</p>
+<p><strong>mixin.js</strong><br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"><span class="keyword">let</span> cache = <span class="literal">null</span> <span class="comment">// 确保进入和离开是一个page</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">export</span> <span class="keyword">default</span> &#123;</span><br><span class="line">    methods: &#123;</span><br><span class="line">        sendEnterPage() &#123;</span><br><span class="line">            cache = <span class="keyword">this</span>.$route</span><br><span class="line">            <span class="built_in">console</span>.log(<span class="string">'enter page'</span>, cache)</span><br><span class="line">        &#125;,</span><br><span class="line">        sendLeavePage() &#123;</span><br><span class="line">            <span class="built_in">console</span>.log(<span class="string">'leave page'</span>, cache)</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;,</span><br><span class="line">    mounted()&#123;</span><br><span class="line">        <span class="keyword">this</span>.sendEnterPage()</span><br><span class="line">    &#125;,</span><br><span class="line">    destroyed() &#123;</span><br><span class="line">        <span class="keyword">this</span>.sendLeavePage()</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p><strong>demo.vue</strong>  部分代码</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line">&lt;script&gt;</span><br><span class="line"><span class="keyword">import</span> test <span class="keyword">from</span> <span class="string">'mixins/test'</span></span><br><span class="line"><span class="keyword">export</span> <span class="keyword">default</span> &#123;</span><br><span class="line">    data() &#123;</span><br><span class="line">        <span class="keyword">return</span> &#123; <span class="attr">text</span>: <span class="string">'Hello World'</span> &#125;</span><br><span class="line">    &#125;,</span><br><span class="line">    mixins: [test],</span><br><span class="line">    methods: &#123;</span><br><span class="line">        logic() &#123;</span><br><span class="line">            <span class="built_in">console</span>.log(<span class="string">'do the logic about hello page'</span>)</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;,</span><br><span class="line">    mounted() &#123;</span><br><span class="line">        <span class="keyword">this</span>.logic()</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p><strong>运行结果图</strong></p>
+<p><img src="https://user-images.githubusercontent.com/2155745/30382229-385a8f70-9864-11e7-8fc7-01439d8a24f2.png" alt="image"></p>
+<p>从图中发现，使用<code>局部mixin</code> 使用 <code>mounted</code>, <code>destroyed</code> 等组件中的生成周期方法与 mixin 是 合并； 当然实验得出 methods中的方法是被覆盖的。具体是通过 <a href="https://github.com/vuejs/vue/blob/master/src/core/util/options.js" target="_blank" rel="noopener">mergeOtions function实现</a></p>
+<h3 id="好处"><a href="#好处" class="headerlink" title="好处"></a>好处</h3><p>埋点这部分需求 与 核心业务 关联, 代码少，尽可能的少侵入业务。</p>
+<h3 id="坏处"><a href="#坏处" class="headerlink" title="坏处"></a>坏处</h3><p><code>minxin</code>中的方法 以及实现 逻辑 其他同事不知道，不直观。 只能通过约定和沟通来解决。</p>
+<p>以上功能有种 “修饰” 的感觉。<code>es7 decorator</code> 支持修饰模式，当局限于 类和类的方法， vue官方提供了 <a href="https://github.com/vuejs/vue-class-component" target="_blank" rel="noopener">vue-class-component</a> 来解决这个问题。</p>
+<p>在<code>React</code>当中已经废弃了 <code>mixin</code>，使用了 <a href="https://juejin.im/post/595243d96fb9a06bbd6f5ccd" target="_blank" rel="noopener">高阶组件</a> 来解决这个问题，其实就是支持 <code>class</code>组件，结合<code>decorator</code>来</p>
+<p>代替mixin。 关于react理解的不对，请指出。</p>
+<p>前端时间闲暇的时候做了一个 <a href="https://github.com/jiangtao/vue-mount-time/" target="_blank" rel="noopener">vue-mount-time</a> 用来记录，第一个组件mount开始时间到 最后一个mount组件结束时间，做了一个简单的尝试。</p>
+<h2 id="行为统计"><a href="#行为统计" class="headerlink" title="行为统计"></a>行为统计</h2><p>若需要做行为统计，可以通过 <code>mixin</code> 拦截到所有的方法， 对方法做统一收集。根据 页面地址 +  方法名 可以 确定对应的行为，从而做到<a href="https://github.com/vue-tools/vue-analysis" target="_blank" rel="noopener">无侵入的埋点解决方案</a></p>
+<h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><p>本篇是对<code>mixin</code>的看法和对业务的结合点，如有不对欢迎指正，转载请注明出处。</p>
 
       
     </div>
@@ -411,7 +393,9 @@
       
         <div class="post-tags">
           
-            <a href="/tags/xss/" rel="tag"># xss</a>
+            <a href="/tags/mixin/" rel="tag"># mixin</a>
+          
+            <a href="/tags/vue/" rel="tag"># vue</a>
           
         </div>
       
@@ -424,18 +408,14 @@
         <div class="post-nav">
           <div class="post-nav-next post-nav-item">
             
-              <a href="/2017/09/13/vue-webp/" rel="next" title="将webp接入到vue项目中">
-                <i class="fa fa-chevron-left"></i> 将webp接入到vue项目中
-              </a>
-            
           </div>
 
           <span class="post-nav-divider"></span>
 
           <div class="post-nav-prev post-nav-item">
             
-              <a href="/2017/11/08/puppeteer-start/" rel="prev" title="从一个爬虫初识puppeteer">
-                从一个爬虫初识puppeteer <i class="fa fa-chevron-right"></i>
+              <a href="/2017/09/13/vue-webp/" rel="prev" title="将webp接入到vue项目中">
+                将webp接入到vue项目中 <i class="fa fa-chevron-right"></i>
               </a>
             
           </div>
@@ -592,7 +572,7 @@
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#插入执行标签"><span class="nav-number">1.</span> <span class="nav-text">插入执行标签</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#标签等提前闭合-截断"><span class="nav-number">2.</span> <span class="nav-text">标签等提前闭合(截断)</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#ES6-tag标签"><span class="nav-number">3.</span> <span class="nav-text">ES6 tag标签</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#转义字符仍可执行"><span class="nav-number">4.</span> <span class="nav-text">转义字符仍可执行</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#svg不闭合也执行"><span class="nav-number">5.</span> <span class="nav-text">svg不闭合也执行</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#正则替换不靠谱"><span class="nav-number">6.</span> <span class="nav-text">正则替换不靠谱</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#防护"><span class="nav-number">7.</span> <span class="nav-text">防护</span></a></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#需求"><span class="nav-number">1.</span> <span class="nav-text">需求</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#好处"><span class="nav-number">1.1.</span> <span class="nav-text">好处</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#坏处"><span class="nav-number">1.2.</span> <span class="nav-text">坏处</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#行为统计"><span class="nav-number">2.</span> <span class="nav-text">行为统计</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#总结"><span class="nav-number">3.</span> <span class="nav-text">总结</span></a></li></ol></div>
             
 
           </div>

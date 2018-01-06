@@ -78,7 +78,7 @@
 <link href="/css/main.css?v=5.1.2" rel="stylesheet" type="text/css" />
 
 
-  <meta name="keywords" content="xss," />
+  <meta name="keywords" content="vue,webp," />
 
 
 
@@ -96,18 +96,18 @@
 
 
 
-<meta name="description" content="朋友组织了一场xss live，安全一直是开发中不可忽视的一部分。而xss作为web开发中最常见的攻击手段，防范是必然的。基于web浏览器tricks，JavaScript的发展，npm等开源项目漏洞，web注入等会让开发者越来越防不胜防。 本次总结基于耗子的xss-demo，以及自己对xss的理解和知识的吸收。感兴趣的同学可以先去试试，这里就不在累赘提供答案了。 欢迎探讨更多Web安全相关话题。">
-<meta name="keywords" content="xss">
+<meta name="description" content="前段时间和朋友聊天，无意间问了一个vue移动端项目优化。针对老的项目怎么提升更好的性能。本人这方面经验不足，忙里偷闲研究了下淘宝，聚划算等网站。 通过network抓包，对比分析得出几个显著的区别">
+<meta name="keywords" content="vue,webp">
 <meta property="og:type" content="article">
-<meta property="og:title" content="xss live总结">
-<meta property="og:url" content="https://imjiangtao.com/2017/09/13/xss-live/index.html">
+<meta property="og:title" content="将webp接入到vue项目中">
+<meta property="og:url" content="https://imjiangtao.com/2017/09/13/vue-webp/index.html">
 <meta property="og:site_name" content="江涛">
-<meta property="og:description" content="朋友组织了一场xss live，安全一直是开发中不可忽视的一部分。而xss作为web开发中最常见的攻击手段，防范是必然的。基于web浏览器tricks，JavaScript的发展，npm等开源项目漏洞，web注入等会让开发者越来越防不胜防。 本次总结基于耗子的xss-demo，以及自己对xss的理解和知识的吸收。感兴趣的同学可以先去试试，这里就不在累赘提供答案了。 欢迎探讨更多Web安全相关话题。">
+<meta property="og:description" content="前段时间和朋友聊天，无意间问了一个vue移动端项目优化。针对老的项目怎么提升更好的性能。本人这方面经验不足，忙里偷闲研究了下淘宝，聚划算等网站。 通过network抓包，对比分析得出几个显著的区别">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:updated_time" content="2018-01-06T13:46:26.000Z">
+<meta property="og:updated_time" content="2018-01-06T14:00:14.000Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="xss live总结">
-<meta name="twitter:description" content="朋友组织了一场xss live，安全一直是开发中不可忽视的一部分。而xss作为web开发中最常见的攻击手段，防范是必然的。基于web浏览器tricks，JavaScript的发展，npm等开源项目漏洞，web注入等会让开发者越来越防不胜防。 本次总结基于耗子的xss-demo，以及自己对xss的理解和知识的吸收。感兴趣的同学可以先去试试，这里就不在累赘提供答案了。 欢迎探讨更多Web安全相关话题。">
+<meta name="twitter:title" content="将webp接入到vue项目中">
+<meta name="twitter:description" content="前段时间和朋友聊天，无意间问了一个vue移动端项目优化。针对老的项目怎么提升更好的性能。本人这方面经验不足，忙里偷闲研究了下淘宝，聚划算等网站。 通过network抓包，对比分析得出几个显著的区别">
 
 
 
@@ -136,13 +136,13 @@
 
 
 
-  <link rel="canonical" href="https://imjiangtao.com/2017/09/13/xss-live/"/>
+  <link rel="canonical" href="https://imjiangtao.com/2017/09/13/vue-webp/"/>
 
 
 
 
 
-  <title>xss live总结 | 江涛</title>
+  <title>将webp接入到vue项目中 | 江涛</title>
   
 
 
@@ -285,7 +285,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="https://imjiangtao.com/2017/09/13/xss-live/">
+    <link itemprop="mainEntityOfPage" href="https://imjiangtao.com/2017/09/13/vue-webp/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="f2ecoder@vip.qq.com">
@@ -302,7 +302,7 @@
 
         
         
-          <h1 class="post-title" itemprop="name headline">xss live总结</h1>
+          <h1 class="post-title" itemprop="name headline">将webp接入到vue项目中</h1>
         
 
         <div class="post-meta">
@@ -352,48 +352,37 @@
       
 
       
-        <p>朋友组织了一场<code>xss</code> live，<code>安全</code>一直是开发中不可忽视的一部分。而<code>xss</code>作为web开发中最常见的攻击手段，防范是必然的。基于<strong>web浏览器tricks</strong>，<strong>JavaScript的发展</strong>，<strong>npm等开源项目漏洞</strong>，<strong>web注入</strong>等会让开发者越来越防不胜防。</p>
-<p>本次总结基于耗子的<a href="https://github.com/haozime/xss-demo" target="_blank" rel="noopener">xss-demo</a>，以及自己对xss的理解和知识的吸收。感兴趣的同学可以先去试试，这里就不在累赘提供答案了。 欢迎探讨更多<code>Web安全</code>相关话题。</p>
-<a id="more"></a>
-<h3 id="插入执行标签"><a href="#插入执行标签" class="headerlink" title="插入执行标签"></a>插入执行标签</h3><ul>
-<li>script</li>
-<li>img onerror触发</li>
-<li>iframe srcdoc触发</li>
+        <p>前段时间和朋友聊天，无意间问了一个<code>vue</code>移动端项目优化。针对老的项目怎么提升更好的性能。本人这方面经验不足，忙里偷闲研究了下淘宝，聚划算等网站。</p>
+<p>通过<code>network</code>抓包，对比分析得出几个显著的区别 <a id="more"></a></p>
+<h2 id="调研结果"><a href="#调研结果" class="headerlink" title="调研结果"></a>调研结果</h2><ul>
+<li>支持webp，优先使用webp</li>
+<li>滚动加载图片</li>
+<li>资源离线存储</li>
 </ul>
-<h3 id="标签等提前闭合-截断"><a href="#标签等提前闭合-截断" class="headerlink" title="标签等提前闭合(截断)"></a>标签等提前闭合(截断)</h3><ul>
-<li><p>如在<code>富文本</code>, <code>input</code>, <code>textarea</code>, 可编辑<code>div</code>等，对应xss-demo <a href="https://xss.haozi.me/#/0x01" target="_blank" rel="noopener">0x01</a>, <a href="https://xss.haozi.me/#/0x02" target="_blank" rel="noopener">0x02</a></p>
+<h2 id="webp"><a href="#webp" class="headerlink" title="webp"></a>webp</h2><p>腾讯isux写了篇文章介绍webp，感兴趣同学可以<a href="https://isux.tencent.com/introduction-of-webp.html" target="_blank" rel="noopener">查阅</a>， 总体来说，<br>同等质量的图片webp较小. 那么，如何接入webp到vue项目中。</p>
+<h3 id="接入webp，得先有webp"><a href="#接入webp，得先有webp" class="headerlink" title="接入webp，得先有webp"></a>接入webp，得先有webp</h3><p>生成webp的几种方式：</p>
+<h4 id="本地生成webp，上传到cdn"><a href="#本地生成webp，上传到cdn" class="headerlink" title="本地生成webp，上传到cdn"></a>本地生成webp，上传到cdn</h4><p>google提供了 <code>CWebp</code> 工具，方便开发者使用。<br>在现在的vue/react项目中， 以<code>webpack</code>做构建的项目居多，为了更方便的在webpack构建中接入webp，一个叫 <a href="https://github.com/jiangtao/webp-webpack-plugin" target="_blank" rel="noopener">webp-webpack-plugin</a> 的插件诞生，感兴趣可以查阅源码。 该插件生成webp为：<strong>编译后的图.webp</strong> ， 如<br><code>vue.e3e41b1.jpg</code> ， <code>vue.e3e41b1.jpg.webp</code>。 将生成后的图片上传到cdn即可</p>
+<h4 id="cdn支持"><a href="#cdn支持" class="headerlink" title="cdn支持"></a>cdn支持</h4><p>cdn支持webp。图片上传到cdn之后，直接通过url规则访问图片即可得到webp</p>
+<h4 id="通过service-worker支持"><a href="#通过service-worker支持" class="headerlink" title="通过service worker支持"></a>通过service worker支持</h4><p>使用service worker拦截请求，改变图片的<code>content-type</code>为webp，使用浏览器对webp天然压缩做支持。 <a href="https://ppt.baomitu.com/" target="_blank" rel="noopener">声享</a> 是通过这种方式实现的。</p>
+<h3 id="滚动加载图片"><a href="#滚动加载图片" class="headerlink" title="滚动加载图片"></a>滚动加载图片</h3><p>当我们有了原图和webp地址后，可以做进一步优化。滚动条<strong>滚动到可视区域内显示图片</strong> 。考虑到要做 <strong>webp的兼容方案</strong>，需要“动态”处理，在vue自定义一个 <code>Image</code> 重写现有的img功能，支持以下功能：</p>
+<ol>
+<li><p>根据webp支持程度，引用对应的图片</p>
 </li>
-<li><p>style标签</p>
+<li><p>支持lazyload</p>
 </li>
-</ul>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">&lt;style&gt;</span><br><span class="line">&lt;/style &gt;&lt;script&gt;alert(1)&lt;/script&gt;</span><br><span class="line">&lt;/style&gt;</span><br></pre></td></tr></table></figure>
-<ul>
-<li><p>注释提前闭合<a href="https://xss.haozi.me/#/0x05" target="_blank" rel="noopener">0x05</a></p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">--!&gt;&lt;script&gt;alert(1)&lt;/script&gt;</span><br></pre></td></tr></table></figure>
-</li>
-<li><p>input type重写<a href="https://xss.haozi.me/#/0x06" target="_blank" rel="noopener">0x06</a></p>
-</li>
-</ul>
-<p>input的type，在type之前可以重写为image，通过<code>onerror</code>注入</p>
-<h3 id="ES6-tag标签"><a href="#ES6-tag标签" class="headerlink" title="ES6 tag标签"></a>ES6 tag标签</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&lt;script&gt;alert`1`&lt;/script&gt;</span><br></pre></td></tr></table></figure>
-<h3 id="转义字符仍可执行"><a href="#转义字符仍可执行" class="headerlink" title="转义字符仍可执行"></a>转义字符仍可执行</h3><ul>
-<li>script标签可执行 <code>base64</code>的html代码片段</li>
-<li>onerror可执行 转义为 html 10进制， 16进制的代码片段</li>
-<li>url转义为 html 10进制， 16进制 仍可执行, url的定义可获取其他域下的资源文件</li>
-</ul>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">scheme:[//[user:password@]host[:port]][/]path[?query][#fragment]</span><br></pre></td></tr></table></figure>
-<h3 id="svg不闭合也执行"><a href="#svg不闭合也执行" class="headerlink" title="svg不闭合也执行"></a>svg不闭合也执行</h3><p>查看 <a href="https://xss.haozi.me/#/0x07" target="_blank" rel="noopener">0x07</a></p>
-<h3 id="正则替换不靠谱"><a href="#正则替换不靠谱" class="headerlink" title="正则替换不靠谱"></a>正则替换不靠谱</h3><ul>
-<li>正则替换 <a href="https://xss.haozi.me/#/0x0C" target="_blank" rel="noopener">0x0C</a></li>
-<li>正则命中 <a href="https://xss.haozi.me/#/0x0E" target="_blank" rel="noopener">0x0E</a></li>
-<li>//追加执行，正则替换失效 <a href="https://xss.haozi.me/#/0x0F" target="_blank" rel="noopener">0x0F</a></li>
-</ul>
-<h3 id="防护"><a href="#防护" class="headerlink" title="防护"></a>防护</h3><ul>
-<li><a href="https://imququ.com/post/web-security-and-response-header.html" target="_blank" rel="noopener">配置安全头</a></li>
-<li><a href="http://fex.baidu.com/blog/2014/06/xss-frontend-firewall-1/" target="_blank" rel="noopener">xss监控</a></li>
-<li>服务端白名单过滤</li>
-</ul>
-<p>这样总结对我更好的理解，也明白为什么最后是通过替换不同的字符来做处理。 <code>Web安全</code>路很长，需要持续关注。</p>
+</ol>
+<p>于是封装了vue image组件<a href="https://github.com/vue-tools/vt-image" target="_blank" rel="noopener">vt-image</a>， 旨在提升图片的性能。感兴趣可以查阅源码. 点击可查看<a href="https://vue-tools.github.io/vt-image/#/demo" target="_blank" rel="noopener">Demo</a></p>
+<p>通过js判定支持webp：</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">detectWebp</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">    <span class="keyword">var</span> canvas, supportCanvas</span><br><span class="line"></span><br><span class="line">    canvas = <span class="built_in">document</span>.createElement(<span class="string">'canvas'</span>)</span><br><span class="line">    supportCanvas = canvas.getContext &amp;&amp; canvas.getContext(<span class="string">'2d'</span>)</span><br><span class="line"></span><br><span class="line">    <span class="keyword">if</span> (supportCanvas) &#123;</span><br><span class="line">        canvas.width = canvas.height = <span class="number">1</span></span><br><span class="line">        <span class="keyword">return</span> canvas.toDataURL(<span class="string">'image/webp'</span>, <span class="number">0.01</span>).indexOf(<span class="string">'image/webp'</span>) != <span class="number">-1</span></span><br><span class="line">    &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="literal">false</span></span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h3 id="资源离线存储"><a href="#资源离线存储" class="headerlink" title="资源离线存储"></a>资源离线存储</h3><p><strong>使用 localStorage 做离线方案</strong></p>
+<p>关于localStorage的可以查看<a href="https://www.zhihu.com/question/28467444" target="_blank" rel="noopener">知乎这篇讨论</a>，详细说明了利弊</p>
+<p><strong>使用 service worker 做离线方案</strong></p>
+<p>webpack插件<a href="https://github.com/NekR/offline-plugin" target="_blank" rel="noopener">offline-plugin</a>， 对webpack打包的资源做了service worker和AppCache以及兼容方案。</p>
+<p>另外一个<a href="https://github.com/oliviertassinari/serviceworker-webpack-plugin" target="_blank" rel="noopener">serviceworker-webpack-plugin</a>只处理<code>service worker</code>，<code>sw.js</code>也是自己处理，自定义和扩展比较方便。可以从<code>chrome network</code>查看效果：<a href="https://vue-tools.github.io/vt-image/#/demo" target="_blank" rel="noopener">Demo</a></p>
+<h3 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h3><p>问题和过程往往比结论更重要，站在巨人的肩膀上，吸收优点引用到自己的项目。如果没有符合需求的，根据 <code>场景</code>，考虑<code>成本</code>，<code>收益</code>，要么换条路走，要么就造个吧。</p>
+<p>如果您觉得 <a href="https://github.com/jiangtao/webp-webpack-plugin" target="_blank" rel="noopener">webp-webpack-plugin</a> 和 <a href="https://github.com/vue-tools/vt-image" target="_blank" rel="noopener">vt-image</a> 对您有用，star 和 提issue 将是对作者最好的鼓励。</p>
+<p>感谢您花了宝贵的时间阅读，如有错误，欢迎指正。</p>
+<p>转载请注明出处，谢谢！</p>
 
       
     </div>
@@ -411,7 +400,9 @@
       
         <div class="post-tags">
           
-            <a href="/tags/xss/" rel="tag"># xss</a>
+            <a href="/tags/vue/" rel="tag"># vue</a>
+          
+            <a href="/tags/webp/" rel="tag"># webp</a>
           
         </div>
       
@@ -424,8 +415,8 @@
         <div class="post-nav">
           <div class="post-nav-next post-nav-item">
             
-              <a href="/2017/09/13/vue-webp/" rel="next" title="将webp接入到vue项目中">
-                <i class="fa fa-chevron-left"></i> 将webp接入到vue项目中
+              <a href="/2017/09/13/vue-mixin-apply/" rel="next" title="vue中的mixins实践">
+                <i class="fa fa-chevron-left"></i> vue中的mixins实践
               </a>
             
           </div>
@@ -434,8 +425,8 @@
 
           <div class="post-nav-prev post-nav-item">
             
-              <a href="/2017/11/08/puppeteer-start/" rel="prev" title="从一个爬虫初识puppeteer">
-                从一个爬虫初识puppeteer <i class="fa fa-chevron-right"></i>
+              <a href="/2017/09/13/xss-live/" rel="prev" title="xss live总结">
+                xss live总结 <i class="fa fa-chevron-right"></i>
               </a>
             
           </div>
@@ -592,7 +583,7 @@
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#插入执行标签"><span class="nav-number">1.</span> <span class="nav-text">插入执行标签</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#标签等提前闭合-截断"><span class="nav-number">2.</span> <span class="nav-text">标签等提前闭合(截断)</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#ES6-tag标签"><span class="nav-number">3.</span> <span class="nav-text">ES6 tag标签</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#转义字符仍可执行"><span class="nav-number">4.</span> <span class="nav-text">转义字符仍可执行</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#svg不闭合也执行"><span class="nav-number">5.</span> <span class="nav-text">svg不闭合也执行</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#正则替换不靠谱"><span class="nav-number">6.</span> <span class="nav-text">正则替换不靠谱</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#防护"><span class="nav-number">7.</span> <span class="nav-text">防护</span></a></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#调研结果"><span class="nav-number">1.</span> <span class="nav-text">调研结果</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#webp"><span class="nav-number">2.</span> <span class="nav-text">webp</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#接入webp，得先有webp"><span class="nav-number">2.1.</span> <span class="nav-text">接入webp，得先有webp</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#本地生成webp，上传到cdn"><span class="nav-number">2.1.1.</span> <span class="nav-text">本地生成webp，上传到cdn</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#cdn支持"><span class="nav-number">2.1.2.</span> <span class="nav-text">cdn支持</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#通过service-worker支持"><span class="nav-number">2.1.3.</span> <span class="nav-text">通过service worker支持</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#滚动加载图片"><span class="nav-number">2.2.</span> <span class="nav-text">滚动加载图片</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#资源离线存储"><span class="nav-number">2.3.</span> <span class="nav-text">资源离线存储</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#总结"><span class="nav-number">2.4.</span> <span class="nav-text">总结</span></a></li></ol></li></ol></div>
             
 
           </div>
