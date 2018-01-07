@@ -240,6 +240,12 @@
               </div>
           {% endif %}
 
+          {% if post.issue.length and not is_index %}
+            <div class="post-tip">
+                <span>文章已同步于<a href="{{url_for(post.issue)}}">github issues</a>，欢迎讨论和关注</span>
+            </div>
+          {% endif %}
+
         </div>
       </header>
     {% endif %}
@@ -333,9 +339,7 @@
 
     <footer class="post-footer">
       {% if post.tags and post.tags.length and not is_index %}
-        <div class="post-tip">
-            <span>文章已同步于<a href="https://github.com/jiangtao/blog/issues">github issues</a>，欢迎讨论和关注</span>
-        </div>
+
         <div class="post-tags">
           {% for tag in post.tags %}
             <a href="{{ url_for(tag.path) }}" rel="tag"># {{ tag.name }}</a>

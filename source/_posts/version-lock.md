@@ -3,6 +3,7 @@ date: 2017-12-01 19:55:00
 tags:
  - npm
  - yarn
+issue: https://github.com/jiangtao/blog/issues/19
 ---
 
 

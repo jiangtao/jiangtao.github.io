@@ -3,6 +3,8 @@ date: 2017-09-13 19:55:00
 tags:
  - webp
  - vue
+
+issue: https://github.com/jiangtao/blog/issues/10
 ---
 
 前段时间和朋友聊天，无意间问了一个`vue`移动端项目优化。针对老的项目怎么提升更好的性能。本人这方面经验不足，忙里偷闲研究了下淘宝，聚划算等网站。

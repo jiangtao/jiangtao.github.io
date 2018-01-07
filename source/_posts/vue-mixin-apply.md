@@ -3,6 +3,7 @@ date: 2017-09-13 19:55:00
 tags:
  - mixin
  - vue
+issue: https://github.com/jiangtao/blog/issues/11
 ---
 
 奇舞周刊推荐了一篇文章[Vue.js 中使用Mixin](http://zcfy.cc/article/using-mixins-in-vue-js-css-tricks-3257.html)， 用了vue大半年时间，`mixin`不知道挺惭愧。
