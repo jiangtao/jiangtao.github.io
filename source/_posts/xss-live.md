@@ -1,4 +1,4 @@
-title: xss live总结
+title: xss live学习总结
 date: 2017-09-13 19:55:00
 tags: [xss]
 issue: https://github.com/jiangtao/blog/issues/7
