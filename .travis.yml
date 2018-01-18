@@ -19,5 +19,6 @@ deploy:
   local-dir: public
   target-branch: master
   verbose: true
+
   on:
     branch: src
