@@ -20,8 +20,6 @@
     "hexo-generator-feed": "^1.2.2"
   },
   "scripts": {
-    "test": "echo 'building'",
-    "g": "hexo g",
-    "d": "node .scripts/deploy.js"
+    "test": "echo 'building'"
   }
 }
