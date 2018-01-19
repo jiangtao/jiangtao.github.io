@@ -8,5 +8,5 @@ before_install:
 
 after_script:
   - chmod a+x .scripts/deploy.js
-  - npm run g
-  - npm run d
+  - hexo g
+  - ./.scripts/deploy.js

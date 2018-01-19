@@ -1,3 +1,5 @@
+#!/usr/bin/env node
+
 const ghpages = require('gh-pages')
 const now = new Date()
 const y = now.getFullYear()
