@@ -2,7 +2,11 @@ language: node_js
 sudo: false
 node_js:
   - "8"
-after_script:
+before_install:
   - npm i -g hexo
+
+
+after_script:
+  - chmod a+x .scripts/deploy.js
   - npm run g
   - npm run d
