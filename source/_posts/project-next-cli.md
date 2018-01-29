@@ -60,7 +60,7 @@ tags:
 
 2. [dva-cli](https://github.com/dvajs/dva-cli)
 
-`dva-cli`主要针对(dva)[https://github.com/dvajs/dva]开发使用的脚手架
+`dva-cli`主要针对[dva](https://github.com/dvajs/dva)开发使用的脚手架
 
 3. [labrador](https://github.com/maichong/labrador)
 
