@@ -5,7 +5,6 @@ node_js:
 before_install:
   - npm i -g hexo
 
-
 after_script:
   - chmod a+x .scripts/deploy.js
   - hexo g
