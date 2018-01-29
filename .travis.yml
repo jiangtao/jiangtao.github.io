@@ -2,10 +2,20 @@ language: node_js
 sudo: false
 node_js:
   - "8"
+
 before_install:
   - npm i -g hexo
+script:
+  - npm run g
+  - npm run d
 
-after_script:
-  - chmod a+x .scripts/deploy.js
-  - hexo g
-  - ./.scripts/deploy.js
+deploy:
+  provider: pages
+  skip-cleanup: true
+  github-token: $GITHUB_TOKEN  # Set in travis-ci.org dashboard, marked secure
+  keep-history: true
+  local-dir: public
+  target-branch: master
+  verbose: true
+  on:
+    branch: src
