@@ -5,6 +5,8 @@ node_js:
 
 before_install:
   - npm i -g hexo
+script:
+  - hexo g
 
 deploy:
   provider: pages
