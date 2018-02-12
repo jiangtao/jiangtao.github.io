@@ -35,7 +35,11 @@
            {% if theme.seo %}
               <p class="site-description motion-element" itemprop="description">{{ theme.signature }}</p>
            {% else %}
-              <p class="site-description motion-element" itemprop="description">{{ theme.description }}</p>
+              <p class="site-description motion-element motion-text" itemprop="description">{{ theme.description }}</p>
+              {% if theme.remark %}
+              <p class="site-description motion-element motion-text" itemprop="description">{{ theme.remark }}</p>
+              {% endif %}
+
           {% endif %}
         </div>
         <nav class="site-state motion-element">
