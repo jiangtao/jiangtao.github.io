@@ -106,7 +106,8 @@
 <meta property="og:locale" content="zh-Hans">
 <meta property="og:image" content="https://github.com/ijs/project-next-cli/raw/master/project-next-cli.gif">
 <meta property="og:image" content="https://imjiangtao.com/images/dev.jpg">
-<meta property="og:updated_time" content="2018-02-12T02:49:03.773Z">
+<meta property="og:image" content="https://imjiangtao.com/images/project-flow.png">
+<meta property="og:updated_time" content="2018-03-24T09:40:24.098Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="搭建一个通用的脚手架">
 <meta name="twitter:description" content="在16年年底的时候，同事聊起脚手架。由于公司业务的多样性,前端的灵活性,让我们不得不思考更通用的脚手架。而不是伴随着前端技术的发展，不断的把时间花在配置上。于是chef-cli诞生了。 18年年初，把过往一年的东西整理和总结下，重新增强了原有的脚手架project-next-cli, 不单单满足我们团队的需求，也可以满足其他人的需求。">
@@ -419,7 +420,8 @@
 <li>获取版本</li>
 </ol>
 <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">curl -i https://api.github.com/repos/project-scaffold/cli/tags</span><br></pre></td></tr></table></figure>
-<h2 id="具体实现逻辑"><a href="#具体实现逻辑" class="headerlink" title="具体实现逻辑"></a>具体实现逻辑</h2><p>根据<code>github api</code>获取到项目列表和版本号之后，就可以做一个通用的脚手架.</p>
+<h2 id="具体实现逻辑"><a href="#具体实现逻辑" class="headerlink" title="具体实现逻辑"></a>具体实现逻辑</h2><p>根据<code>github api</code>获取到项目列表和版本号之后，根据输入的名称，选择对应的版本下载到本地<code>私有仓库</code>，生成到执行目录下。详情流程图如下：。</p>
+<p><img src="/images/project-flow.png" alt="image"></p>
 <h3 id="下载"><a href="#下载" class="headerlink" title="下载"></a>下载</h3><ol>
 <li>使用</li>
 </ol>
