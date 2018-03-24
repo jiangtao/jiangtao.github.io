@@ -103,7 +103,9 @@ curl -i https://api.github.com/repos/project-scaffold/cli/tags
 
 ## 具体实现逻辑
 
-根据`github api`获取到项目列表和版本号之后，就可以做一个通用的脚手架.
+根据`github api`获取到项目列表和版本号之后，根据输入的名称，选择对应的版本下载到本地`私有仓库`，生成到执行目录下。详情流程图如下：。
+
+![image](/images/project-flow.png)
 
 ### 下载
 
