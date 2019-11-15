@@ -137,7 +137,13 @@
   <link rel="canonical" href="https://imjiangtao.com/tags/webp/"/>
 
 
-
+<script>
+if ('serviceWorker' in navigator) {
+  navigator.serviceWorker.register('/sw.js').then(function() {
+    console.log('ServiceWorker has been registered!');
+  }).catch(console.error);
+}
+</script>
 
 
   <title>标签: webp | 江涛</title>

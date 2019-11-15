@@ -103,7 +103,7 @@
 <meta property="og:site_name" content="江涛">
 <meta property="og:description" content="前端工程师一枚，擅长javascript，Node。致力于做一个发现问题和解决问题的人。">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:updated_time" content="2019-10-15T08:40:13.899Z">
+<meta property="og:updated_time" content="2019-11-15T05:57:14.164Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="about">
 <meta name="twitter:description" content="前端工程师一枚，擅长javascript，Node。致力于做一个发现问题和解决问题的人。">
@@ -138,7 +138,13 @@
   <link rel="canonical" href="https://imjiangtao.com/about/"/>
 
 
-
+<script>
+if ('serviceWorker' in navigator) {
+  navigator.serviceWorker.register('/sw.js').then(function() {
+    console.log('ServiceWorker has been registered!');
+  }).catch(console.error);
+}
+</script>
 
 
   <title>about | 江涛</title>

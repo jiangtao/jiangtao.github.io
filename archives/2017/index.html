@@ -137,7 +137,13 @@
   <link rel="canonical" href="https://imjiangtao.com/archives/2017/"/>
 
 
-
+<script>
+if ('serviceWorker' in navigator) {
+  navigator.serviceWorker.register('/sw.js').then(function() {
+    console.log('ServiceWorker has been registered!');
+  }).catch(console.error);
+}
+</script>
 
 
   <title>归档 | 江涛</title>

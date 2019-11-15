@@ -104,7 +104,7 @@
 <meta property="og:site_name" content="江涛">
 <meta property="og:description" content="前几天测试的时候遇到个问题，测试的时候出现依赖升级问题，由于测试同学是重新换了个机子，重装了环境，导致下载过程中依赖升级。npm带来便利的时候也带一些问题。如果您觉得比较啰嗦，直接看结果。 我们的vue项目最早依赖2.1.8版本做了组件和项目，为了保证产品的稳定性，决定锁死版本。可以参考这篇文章，介绍了框架升级分析的方法。">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:updated_time" content="2019-10-15T08:40:13.899Z">
+<meta property="og:updated_time" content="2019-11-15T05:57:14.164Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="npm依赖版本锁定和管理">
 <meta name="twitter:description" content="前几天测试的时候遇到个问题，测试的时候出现依赖升级问题，由于测试同学是重新换了个机子，重装了环境，导致下载过程中依赖升级。npm带来便利的时候也带一些问题。如果您觉得比较啰嗦，直接看结果。 我们的vue项目最早依赖2.1.8版本做了组件和项目，为了保证产品的稳定性，决定锁死版本。可以参考这篇文章，介绍了框架升级分析的方法。">
@@ -139,7 +139,13 @@
   <link rel="canonical" href="https://imjiangtao.com/2017/12/01/version-lock/"/>
 
 
-
+<script>
+if ('serviceWorker' in navigator) {
+  navigator.serviceWorker.register('/sw.js').then(function() {
+    console.log('ServiceWorker has been registered!');
+  }).catch(console.error);
+}
+</script>
 
 
   <title>npm依赖版本锁定和管理 | 江涛</title>

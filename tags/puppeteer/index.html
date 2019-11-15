@@ -137,7 +137,13 @@
   <link rel="canonical" href="https://imjiangtao.com/tags/puppeteer/"/>
 
 
-
+<script>
+if ('serviceWorker' in navigator) {
+  navigator.serviceWorker.register('/sw.js').then(function() {
+    console.log('ServiceWorker has been registered!');
+  }).catch(console.error);
+}
+</script>
 
 
   <title>标签: puppeteer | 江涛</title>

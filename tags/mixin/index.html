@@ -137,7 +137,13 @@
   <link rel="canonical" href="https://imjiangtao.com/tags/mixin/"/>
 
 
-
+<script>
+if ('serviceWorker' in navigator) {
+  navigator.serviceWorker.register('/sw.js').then(function() {
+    console.log('ServiceWorker has been registered!');
+  }).catch(console.error);
+}
+</script>
 
 
   <title>标签: mixin | 江涛</title>
