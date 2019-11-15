@@ -45,6 +45,22 @@ highlight:
   auto_detect: false
   tab_replace:
 
+hexoWorkbox:
+  enable: true
+workbox:
+  swDest: 'sw.js'
+  importScripts: 
+    - 'https://storage.googleapis.com/workbox-cdn/releases/3.6.3/workbox-sw.js'
+  globPatterns:
+    - '**/*.html'
+  runtimeCaching:
+    - urlPattern: '**/*.jpg'
+      handler: 'staleWhileRevalidate'
+      options:
+        cacheName: 'images'
+  skipWaiting: true
+  clientsClaim: true
+
 # Home page setting
 # path: Root path for your blogs index page. (default = '')
 # per_page: Posts displayed per page. (0 = disable pagination)
@@ -97,3 +113,7 @@ links_title: 友情链接
 links_layout: inline
 links:
   无代码: https://www.wudaima.com
+  
+
+# https://segmentfault.com/a/1190000016286007 pwa
+# https://github.com/josex2r/hexo-workbox workbox 
