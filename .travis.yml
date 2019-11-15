@@ -4,10 +4,9 @@ node_js:
   - "8"
 
 before_install:
-  - npm i -g hexo yarn 
-  - yarn install
+  - npm i -g hexo
+  - npm i
 script:
-  - hexo clean
   - hexo g
 
 deploy:
