@@ -52,12 +52,12 @@ workbox:
   importScripts: 
     - 'https://g.alicdn.com/kg/workbox/3.3.0/workbox-sw.js'
   globPatterns:
-    - '**/*.html'
+    - '**/*.{html,js,css,svg,jpeg,jpg,png,gif}'
   runtimeCaching:
     - urlPattern: '**/*.{html,js,css,svg,jpeg,jpg,png,gif}'
       handler: 'staleWhileRevalidate'
       options:
-        cacheName: 'images'
+        cacheName: 'precache'
   skipWaiting: true
   clientsClaim: true
 
