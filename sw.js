@@ -27,59 +27,59 @@ workbox.clientsClaim();
  */
 self.__precacheManifest = [
   {
-    "url": "2017/09/13/vue-mixin-apply/index.html",
+    "url": "2017/09/13/vue-mixin-apply",
     "revision": "b04b98f0cb04c34afff2513a2bebce5f"
   },
   {
-    "url": "2017/09/13/vue-webp/index.html",
+    "url": "2017/09/13/vue-webp",
     "revision": "f21ee641f9779607c55347800dcff064"
   },
   {
-    "url": "2017/09/13/xss-live/index.html",
+    "url": "2017/09/13/xss-live",
     "revision": "83c7c1f0418c978d8d1157451902e620"
   },
   {
-    "url": "2017/11/08/puppeteer-start/index.html",
+    "url": "2017/11/08/puppeteer-start",
     "revision": "f25175952f8b43d8153ea341662c3b1e"
   },
   {
-    "url": "2017/12/01/version-lock/index.html",
+    "url": "2017/12/01/version-lock",
     "revision": "9b3bb5b40b592659691093bfeb942b06"
   },
   {
-    "url": "2018/01/29/project-next-cli/index.html",
+    "url": "2018/01/29/project-next-cli",
     "revision": "8d101023b28b78a08afd9aa069299be4"
   },
   {
-    "url": "about/index.html",
+    "url": "about",
     "revision": "874817c579a733ab0a552a83f2a99d74"
   },
   {
-    "url": "archives/2017/09/index.html",
+    "url": "archives/2017/09",
     "revision": "7ffdbc9ad8bbeec3110f70edf3e565a5"
   },
   {
-    "url": "archives/2017/11/index.html",
+    "url": "archives/2017/11",
     "revision": "dfc1643daa7fcfe78ddafbeb5bf87399"
   },
   {
-    "url": "archives/2017/12/index.html",
+    "url": "archives/2017/12",
     "revision": "0580d819654a780390f2c6502d53f8cd"
   },
   {
-    "url": "archives/2017/index.html",
+    "url": "archives/2017",
     "revision": "99565be94acd2377ecd24e13ef0c32f4"
   },
   {
-    "url": "archives/2018/01/index.html",
+    "url": "archives/2018/01",
     "revision": "4497eaac5dcd8116fa6ab6d417cb3845"
   },
   {
-    "url": "archives/2018/index.html",
+    "url": "archives/2018",
     "revision": "5569682fe39e83308c84eaf827ee0549"
   },
   {
-    "url": "archives/index.html",
+    "url": "archives",
     "revision": "61649aaf79bd89788a55a93405e67612"
   },
   {
@@ -411,51 +411,51 @@ self.__precacheManifest = [
     "revision": "444faf512fb24d50a5dec747cbbe39bd"
   },
   {
-    "url": "tags/cli/index.html",
+    "url": "tags/cli",
     "revision": "24ada85c9d9565c029b858a3915db8e9"
   },
   {
-    "url": "tags/crawler/index.html",
+    "url": "tags/crawler",
     "revision": "26ef6570656dc7f5afee1b4844d482f0"
   },
   {
-    "url": "tags/index.html",
+    "url": "tags",
     "revision": "d7b8db347562c1dbe224790dabb90f97"
   },
   {
-    "url": "tags/mixin/index.html",
+    "url": "tags/mixin",
     "revision": "ba7cd3163d9b1a670529d4aadb635f0d"
   },
   {
-    "url": "tags/Node/index.html",
+    "url": "tags/Node",
     "revision": "2511bd7bf306c762f318a32914bdc997"
   },
   {
-    "url": "tags/npm/index.html",
+    "url": "tags/npm",
     "revision": "de9b559ebc0332e6917e8f126bfc5fb9"
   },
   {
-    "url": "tags/puppeteer/index.html",
+    "url": "tags/puppeteer",
     "revision": "fc709c75d98d00ef4b18751ea21312eb"
   },
   {
-    "url": "tags/vue/index.html",
+    "url": "tags/vue",
     "revision": "c74272d50a361ea85a82fb5d6cbc3b95"
   },
   {
-    "url": "tags/webp/index.html",
+    "url": "tags/webp",
     "revision": "b1cac40db4b18fb477f7d3192c1629b5"
   },
   {
-    "url": "tags/xss/index.html",
+    "url": "tags/xss",
     "revision": "7cc1232344fb5d423c52e96e5a4d9953"
   },
   {
-    "url": "tags/yarn/index.html",
+    "url": "tags/yarn",
     "revision": "51df97546dcea5823bf2244887d3c3df"
   },
   {
-    "url": "tags/脚手架/index.html",
+    "url": "tags/脚手架",
     "revision": "617f91fe0ddd200bd7414c024db0b456"
   }
 ].concat(self.__precacheManifest || []);
