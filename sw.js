@@ -27,4 +27,4 @@ self.__precacheManifest = [].concat(self.__precacheManifest || []);
 workbox.precaching.suppressWarnings();
 workbox.precaching.precacheAndRoute(self.__precacheManifest, {});
 
-workbox.routing.registerRoute("**/*.{html,js,css,svg,jpeg,jpg,png,gif}", workbox.strategies.staleWhileRevalidate({ "cacheName":"images", plugins: [] }), 'GET');
+workbox.routing.registerRoute("**/*.{html,js,css,svg,jpeg,jpg,png,gif}", workbox.strategies.staleWhileRevalidate({ "cacheName":"precache", plugins: [] }), 'GET');
