@@ -1,0 +1,900 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next pisces use-motion" lang="zh-Hans">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.2" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="npm,yarn," />
+
+
+
+
+
+  <link rel="alternate" href="/atom.xml" title="江涛" type="application/atom+xml" />
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=5.1.2" />
+
+
+
+
+
+
+<meta name="description" content="前几天测试的时候遇到个问题，测试的时候出现依赖升级问题，由于测试同学是重新换了个机子，重装了环境，导致下载过程中依赖升级。npm带来便利的时候也带一些问题。如果您觉得比较啰嗦，直接看结果。 我们的vue项目最早依赖2.1.8版本做了组件和项目，为了保证产品的稳定性，决定锁死版本。可以参考这篇文章，介绍了框架升级分析的方法。">
+<meta name="keywords" content="npm,yarn">
+<meta property="og:type" content="article">
+<meta property="og:title" content="npm依赖版本锁定和管理">
+<meta property="og:url" content="https://imjiangtao.com/2017/12/01/version-lock/index.html">
+<meta property="og:site_name" content="江涛">
+<meta property="og:description" content="前几天测试的时候遇到个问题，测试的时候出现依赖升级问题，由于测试同学是重新换了个机子，重装了环境，导致下载过程中依赖升级。npm带来便利的时候也带一些问题。如果您觉得比较啰嗦，直接看结果。 我们的vue项目最早依赖2.1.8版本做了组件和项目，为了保证产品的稳定性，决定锁死版本。可以参考这篇文章，介绍了框架升级分析的方法。">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:updated_time" content="2019-11-15T06:58:43.061Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="npm依赖版本锁定和管理">
+<meta name="twitter:description" content="前几天测试的时候遇到个问题，测试的时候出现依赖升级问题，由于测试同学是重新换了个机子，重装了环境，导致下载过程中依赖升级。npm带来便利的时候也带一些问题。如果您觉得比较啰嗦，直接看结果。 我们的vue项目最早依赖2.1.8版本做了组件和项目，为了保证产品的稳定性，决定锁死版本。可以参考这篇文章，介绍了框架升级分析的方法。">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Pisces',
+    sidebar: {"position":"right","display":"post","offset":12,"offset_float":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: true,
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="https://imjiangtao.com/2017/12/01/version-lock/"/>
+
+
+<script>
+if ('serviceWorker' in navigator) {
+  navigator.serviceWorker.register('/sw.js').then(function() {
+    console.log('ServiceWorker has been registered!');
+  }).catch(console.error);
+}
+</script>
+
+
+  <title>npm依赖版本锁定和管理 | 江涛</title>
+  
+
+
+
+
+
+  <script type="text/javascript">
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "https://hm.baidu.com/hm.js?bc21f6899914adbf43334115695146dc";
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+  </script>
+
+
+
+
+
+
+
+
+
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-right page-post-detail ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">江涛</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle">记录成长，共同进步</p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-user"></i> <br />
+            
+            关于
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="https://imjiangtao.com/2017/12/01/version-lock/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="f2ecoder@vip.qq.com">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="https://avatars1.githubusercontent.com/u/2155745?s=460&v=4">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="江涛">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">npm依赖版本锁定和管理</h1>
+        
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-12-01T19:55:00+08:00">
+                2017-12-01
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+          
+            <div class="post-tip">
+                <span>文章已同步于<a href="https://github.com/jiangtao/blog/issues/19">github issues</a>，欢迎讨论和关注</span>
+            </div>
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p>前几天测试的时候遇到个问题，测试的时候出现依赖升级问题，由于测试同学是重新换了个机子，重装了环境，导致下载过程中依赖升级。npm带来便利的时候也带一些问题。如果您觉得比较啰嗦，直接看结果。</p>
+<p>我们的vue项目最早依赖2.1.8版本做了组件和项目，为了保证产品的稳定性，决定锁死版本。可以参考<a href="https://zhuanlan.zhihu.com/p/31442269" target="_blank" rel="noopener">这篇文章</a>，介绍了框架升级分析的方法。</p>
+<a id="more"></a>
+<p>如果你也是使用vue可能需要注意以下依赖：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="string">"vue-loader"</span>: <span class="string">"9.9.5"</span>,</span><br><span class="line"><span class="string">"vue-style-loader"</span>: <span class="string">"1.0.0"</span>,</span><br><span class="line"><span class="string">"vue"</span>: <span class="string">"2.1.8"</span>,</span><br><span class="line"><span class="string">"vue-template-compiler"</span>: <span class="string">"2.1.8"</span></span><br></pre></td></tr></table></figure>
+<p>针对这种依赖升级解决方法：</p>
+<ol>
+<li>只发布编译后的文件</li>
+</ol>
+<p>这样测试同学就无需关心，升级依赖后再重新打包发布。</p>
+<p>优点: 测试同学无需关注依赖安装<br>缺点: 产出目录充斥着各种版本的文件，增量存储repo越来越大</p>
+<ol>
+<li>不通过包管理工具，直接把 node_modules打包，测试环境解压，每次升级依赖重新发布</li>
+</ol>
+<p>开发直接把 <code>node_modules</code> 打成tar包, 部署的时候解压然后，再通过 <code>npm run test</code>打包测试. 一般现在一个项目一个node_modules打包后几十M（gzip之后），更新依赖之后解压。</p>
+<p>好处： 无网络<br>坏处： 有一些c++的npm包，在不同的系统环境下是不同的，因此在osx下的<code>node_modules</code>，在<code>Ubuntu</code>失效。 好在我们的项目没有这种依赖包，所以也可以做一种方案。若有c++的包，则需要在本地装虚拟环境，如<code>vagrant</code>或<code>docker</code>跑测试对应的环境. 每当此时心里总是在想，咱还是前端开发吗[捂脸]</p>
+<ol>
+<li>包管理工具锁死</li>
+</ol>
+<p>node发展历程中出现了几种方式来做版本锁定, 以下面<code>package.json</code>为例</p>
+<figure class="highlight json"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">&#123;</span><br><span class="line">  <span class="attr">"name"</span>: <span class="string">"npm-lock"</span>,</span><br><span class="line">  <span class="attr">"version"</span>: <span class="string">"0.0.1"</span>,</span><br><span class="line">  <span class="attr">"description"</span>: <span class="string">"test dependies lock way"</span>,</span><br><span class="line">  <span class="attr">"main"</span>: <span class="string">"index.js"</span>,</span><br><span class="line">  <span class="attr">"scripts"</span>: &#123;</span><br><span class="line">    <span class="attr">"test"</span>: <span class="string">"echo \"Error: no test specified\" &amp;&amp; exit 1"</span></span><br><span class="line">  &#125;,</span><br><span class="line">  <span class="attr">"author"</span>: <span class="string">"f2ecoder@vip.qq.com"</span>,</span><br><span class="line">  <span class="attr">"license"</span>: <span class="string">"MIT"</span>,</span><br><span class="line">  <span class="attr">"devDependencies"</span>: &#123;&#125;,</span><br><span class="line">  <span class="attr">"dependencies"</span>: &#123;</span><br><span class="line">    <span class="attr">"vue"</span>: <span class="string">"^2.2.0"</span></span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>没有下列命令的情况下,  查看 vue版本是 <code>2.5.9</code>, <code>npm outdate</code>没有输出，也就是最新版本。以下是三种锁定版本的方案，如果觉得文章啰嗦，可以直接查看表格比较：</p>
+<table>
+<thead>
+<tr>
+<th style="text-align:center">-</th>
+<th style="text-align:center">npm-shrinkwrap.json</th>
+<th style="text-align:center">package-lock.json</th>
+<th style="text-align:center">yarn.lock</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:center">命令</td>
+<td style="text-align:center">npm shrinkwrap</td>
+<td style="text-align:center">无</td>
+<td style="text-align:center">无</td>
+</tr>
+<tr>
+<td style="text-align:center">生成方式</td>
+<td style="text-align:center">需要命令生成</td>
+<td style="text-align:center">npm安装自动生成</td>
+<td style="text-align:center">yarn安装自动生成</td>
+</tr>
+<tr>
+<td style="text-align:center">npm版本</td>
+<td style="text-align:center">任意</td>
+<td style="text-align:center">&gt;=5.0.0</td>
+<td style="text-align:center">任意</td>
+</tr>
+<tr>
+<td style="text-align:center">额外安装</td>
+<td style="text-align:center">无</td>
+<td style="text-align:center">无</td>
+<td style="text-align:center">yarn</td>
+</tr>
+<tr>
+<td style="text-align:center">增加依赖</td>
+<td style="text-align:center">npm i -S vue@2.1.8 &amp;&amp; npm shrinkwrap</td>
+<td style="text-align:center">npm i -S vue@2.1.8</td>
+<td style="text-align:center">yarn add vue@2.1.8</td>
+</tr>
+<tr>
+<td style="text-align:center">更新</td>
+<td style="text-align:center">npm uni -S vue &amp;&amp; npm I -S vue@2.5.1</td>
+<td style="text-align:center">npm uni -S vue&amp;&amp; npm i -S vue@2.5.1</td>
+<td style="text-align:center">yarn upgrade vue@2.5.1</td>
+</tr>
+<tr>
+<td style="text-align:center">删除</td>
+<td style="text-align:center">npm uni -S vue</td>
+<td style="text-align:center">npm uni -S vue</td>
+<td style="text-align:center">yarn remove vue</td>
+</tr>
+<tr>
+<td style="text-align:center">发布</td>
+<td style="text-align:center">支持</td>
+<td style="text-align:center">不支持</td>
+<td style="text-align:center">支持</td>
+</tr>
+<tr>
+<td style="text-align:center">离线</td>
+<td style="text-align:center">不支持</td>
+<td style="text-align:center">不支持</td>
+<td style="text-align:center">支持</td>
+</tr>
+<tr>
+<td style="text-align:center">缓存</td>
+<td style="text-align:center">不支持</td>
+<td style="text-align:center">不支持</td>
+<td style="text-align:center">支持</td>
+</tr>
+</tbody>
+</table>
+<h2 id="npm-shrinkwrap"><a href="#npm-shrinkwrap" class="headerlink" title="npm shrinkwrap"></a>npm shrinkwrap</h2><p>为了确保我们使用的vue版本是2.2.0， 删除依赖，重新下载. 以下测试环境参数：</p>
+<p>node: v6.10.2<br>npm: 3.10.10</p>
+<p><code>npm i vue@2.2.0 -S</code>， 查看node_modules vue版本是2.2.0</p>
+<p>npm官方提供 <code>npm shrinkwrap</code>命令，生成 <code>npm-shrinkwrap.json</code>文件。</p>
+<p>下面对依赖做增加，删除，修改的操作，看看 <code>npm-shrinkwrap.json</code>变化</p>
+<p><strong>1. 增加依赖</strong></p>
+<p><code>npm  i vue-http@2.0.1 -S</code>, <code>npm-shrinkwrap.json</code> 自动将<code>vue-http</code>及其依赖添加进去</p>
+<p><strong>2. 删除依赖</strong><br><code>npm uni vue-http -S</code>, 删除的时候自动删除<code>npm-shrinkwrap.json</code>中的<code>vue-http</code>及其依赖； 若忘了加 -S 或 -D， 则无法删除， 不够智能。</p>
+<p><strong>3. 升级/降级依赖</strong></p>
+<p><code>npm up vue-http@2.0.0 -S</code> ，升级依赖，依赖没有升级，<code>npm-shrinkwrap.json</code>无更新，略显鸡肋。所以更新的话，直接通过上述方式删除，再添加吧。</p>
+<p><strong>4. 结果</strong></p>
+<p>把node_modules删掉，<code>npm i</code>， 依赖完美下载成功。</p>
+<p>优点：npm天然支持<br>缺点：需要手动触发，update不生效</p>
+<h2 id="yarn"><a href="#yarn" class="headerlink" title="yarn"></a>yarn</h2><p>重新把<code>npm shrinkwrap</code>验证逻辑跑一遍.</p>
+<p><strong>1. 新增依赖</strong></p>
+<p><code>yarn add vue@2.2.0 vue-http@1.0.0</code>的时候，自动生成了 <code>yarn.lock</code>文件及其相关依赖</p>
+<p><strong>2. 删除依赖</strong></p>
+<p><code>yarn remove vue-http</code>, 自动删除依赖</p>
+<p><strong>3. 更新依赖</strong></p>
+<p><code>yarn upgrade vue-http@2.0.1</code>， 依赖更新成功， <code>yarn.lock</code>版本更新成功</p>
+<p><strong>4. 结果</strong></p>
+<p>把node_modules删掉，<code>npm i</code>， 依赖完美下载成功。更重要的是， yarn会在本地缓存一份依赖，存储在 $HOME/.yarn-cache目录下，</p>
+<p>存储文件的规则是： registry-package_name-version，下载前会检查缓存中是否命中，若命中直接从本地获取，因此速度更快。</p>
+<p>优点: 通过yarn命令操作，可以自动更新yarn.lock，从缓存中读取速度快. 支持离线模式<br>缺点: 还需要在下载一个yarn命令</p>
+<h2 id="package-lock-json"><a href="#package-lock-json" class="headerlink" title="package-lock.json"></a>package-lock.json</h2><p><code>package-lock.json</code>是npm 5.0之后, 对应的node版本是8.0.0, npm下载的时候会自动的出现在目录中. 将Node升级到8.0.0进行以上测试.</p>
+<p><strong>1. 增加依赖</strong></p>
+<p><code>npm  i vue-http@2.0.1 -S</code>, 自动生成的<code>package-lock.json</code> 自动将<code>vue-http</code>及其依赖添加进去</p>
+<p><strong>2. 删除依赖</strong><br><code>npm uni vue-http -S</code>, 删除的时候，自动删除<code>package-lock.json</code>中的<code>vue-http</code>及其依赖； 不需要加 -S -D</p>
+<p><strong>3. 升级/降级依赖</strong></p>
+<p><code>npm up vue-http@2.0.0 -S</code> ，升级依赖，依赖没有升级，<code>package-lock.json</code>无更新，。所以更新的话，直接通过上述方式删除，再添加吧。是npm update的问题</p>
+<p><strong>4. 结果</strong></p>
+<p>把node_modules删掉，<code>npm i</code>， 依赖完美下载成功。</p>
+<p>优点：npm天然支持， 比较智能。<br>缺点：只有npm5.0之后支持，若低于8.0.0版本的node需要手动下载npm5. 另外<code>package-lock.json</code>不能发包。 因此官方给出可以通过 <code>npm shrinkwrap</code>把 <code>package-lock.json</code>重命名为 <code>npm-shrinkwrap.json</code>.</p>
+<h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><p>对比总结，采用yarn管理，好处除了安装一个依赖之后，版本锁定智能，下载一次后速度快。yarn使用的包也是npm上的包可以在各个node版本中使用。</p>
+<h2 id="推荐阅读"><a href="#推荐阅读" class="headerlink" title="推荐阅读"></a>推荐阅读</h2><ul>
+<li><a href="https://yarnpkg.com/lang/zh-hans/docs/migrating-from-npm/" target="_blank" rel="noopener">从 npm 迁移</a></li>
+</ul>
+
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+        <div class="post-tags">
+          
+            <a href="/tags/npm/" rel="tag"># npm</a>
+          
+            <a href="/tags/yarn/" rel="tag"># yarn</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2017/11/08/puppeteer-start/" rel="next" title="从一个爬虫初识puppeteer">
+                <i class="fa fa-chevron-left"></i> 从一个爬虫初识puppeteer
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2018/01/29/project-next-cli/" rel="prev" title="搭建一个通用的脚手架">
+                搭建一个通用的脚手架 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
+    
+  </div>
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" itemprop="image"
+               src="https://avatars1.githubusercontent.com/u/2155745?s=460&v=4"
+               alt="f2ecoder@vip.qq.com" />
+          <p class="site-author-name" itemprop="name">f2ecoder@vip.qq.com</p>
+           
+              <p class="site-description motion-element motion-text" itemprop="description">沉淀下来，你想要的时间会给你</p>
+              
+              <p class="site-description motion-element motion-text" itemprop="description">常年承接h5,小程序,node，中后台，爬虫等外包</p>
+              
+
+          
+        </div>
+        <nav class="site-state motion-element">
+
+          
+            <div class="site-state-item site-state-posts">
+              <a href="/archives/">
+                <span class="site-state-item-count">6</span>
+                <span class="site-state-item-name">日志</span>
+              </a>
+            </div>
+          
+
+          
+
+          
+            
+            
+            <div class="site-state-item site-state-tags">
+              <a href="/tags/index.html">
+                <span class="site-state-item-count">11</span>
+                <span class="site-state-item-name">标签</span>
+              </a>
+            </div>
+          
+
+        </nav>
+
+        
+          <div class="feed-link motion-element">
+            <a href="/atom.xml" rel="alternate">
+              <i class="fa fa-rss"></i>
+              RSS
+            </a>
+          </div>
+        
+
+        <div class="links-of-author motion-element">
+          
+            
+              <span class="links-of-author-item">
+                <a href="https://github.com/jiangtao" target="_blank" title="GitHub">
+                  
+                    <i class="fa fa-fw fa-github"></i>
+                  
+                    
+                      GitHub
+                    
+                </a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="http://www.zhihu.com/people/Jerret321" target="_blank" title="ZhiHu">
+                  
+                    <i class="fa fa-fw fa-globe"></i>
+                  
+                    
+                      ZhiHu
+                    
+                </a>
+              </span>
+            
+          
+        </div>
+
+        
+        
+
+        
+        
+          <div class="links-of-blogroll motion-element links-of-blogroll-inline">
+            <div class="links-of-blogroll-title">
+              <i class="fa  fa-fw fa-globe"></i>
+              友情链接
+            </div>
+            <ul class="links-of-blogroll-list">
+              
+                <li class="links-of-blogroll-item">
+                  <a href="https://www.wudaima.com" title="无代码" target="_blank">无代码</a>
+                </li>
+              
+            </ul>
+          </div>
+        
+
+        
+
+
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#npm-shrinkwrap"><span class="nav-number">1.</span> <span class="nav-text">npm shrinkwrap</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#yarn"><span class="nav-number">2.</span> <span class="nav-text">yarn</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#package-lock-json"><span class="nav-number">3.</span> <span class="nav-text">package-lock.json</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#总结"><span class="nav-number">4.</span> <span class="nav-text">总结</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#推荐阅读"><span class="nav-number">5.</span> <span class="nav-text">推荐阅读</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright" >
+  
+  &copy; 
+  <span itemprop="copyrightYear">2019</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">f2ecoder@vip.qq.com</span>
+</div>
+
+
+<div class="powered-by">
+  由 <a class="theme-link" href="https://hexo.io">Hexo</a> 强力驱动
+</div>
+
+<div class="theme-info">
+  主题 -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
+    NexT.Pisces
+  </a>
+</div>
+
+
+        
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.2"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.2"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=5.1.2"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.1.2"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.2"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.2"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.2"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>
