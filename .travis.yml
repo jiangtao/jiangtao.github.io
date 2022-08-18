@@ -6,8 +6,7 @@ node_js:
 install:
   - yarn
 before_install:
-  - npm i -g hexo@3.9.0 yarn
-  - npm i
+  - npm i -g yarn hexo@3.9.0
 script:
   - hexo g
 
