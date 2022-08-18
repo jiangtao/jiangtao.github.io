@@ -242,7 +242,7 @@
 
           {% if post.issue.length and not is_index %}
             <div class="post-tip">
-                <span>文章已同步于<a href="{{url_for(post.issue)}}">github issues</a>，欢迎讨论和关注</span>
+                <span>文章已同步于<a href="{{url_for(post.issue)}}"><b>源地址</b></a>，欢迎讨论和关注. 本博客有图片不显示,可以查看源地址, 部分图片做了防盗链</span>
             </div>
           {% endif %}
 
